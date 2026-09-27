@@ -1,3 +1,4 @@
+import re
 from flask import Blueprint, request, jsonify, g
 
 from auth import token_required
@@ -28,10 +29,17 @@ def create_tag():
     data = request.get_json(silent=True) or {}
     name = (data.get("name") or "").strip()
     color = (data.get("color") or "#2F6F63").strip()
+    
     if not name:
         return jsonify({"error": "O nome da tag é obrigatório."}), 400
+        
+    # Validação de segurança contra XSS para a cor da tag
+    if not re.match(r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", color):
+        return jsonify({"error": "Cor inválida. Utilize o formato hexadecimal (ex: #FF0000)."}), 400
+
     if query_one("SELECT id FROM tags WHERE user_id = ? AND name = ?", (g.user_id, name)):
         return jsonify({"error": "Você já possui uma tag com esse nome."}), 409
+        
     tag_id = execute(
         "INSERT INTO tags (user_id, name, color) VALUES (?, ?, ?)",
         (g.user_id, name, color),
@@ -44,9 +52,14 @@ def update_tag(tag_id):
     tag = query_one("SELECT * FROM tags WHERE id = ? AND user_id = ?", (tag_id, g.user_id))
     if not tag:
         return jsonify({"error": "Tag não encontrada."}), 404
+        
     data = request.get_json(silent=True) or {}
     name = (data.get("name") or tag["name"]).strip()
     color = (data.get("color") or tag["color"]).strip()
+
+    # Validação de segurança contra XSS para a cor na atualização
+    if not re.match(r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", color):
+        return jsonify({"error": "Cor inválida. Utilize o formato hexadecimal (ex: #FF0000)."}), 400
 
     execute("UPDATE tags SET name = ?, color = ? WHERE id = ?", (name, color, tag_id))
     return jsonify({"id": tag_id, "name": name, "color": color}), 200
