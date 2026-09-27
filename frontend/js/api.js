@@ -88,7 +88,7 @@ const API = (() => {
     deleteTag: (id) => request(`/tags/${id}`, { method: "DELETE" }),
 
     listHolidays: (year, country = "BR") =>
-      request(`/holidays?year=${year}&country=${country}`),
+      request(`/feriados?year=${year}&country=${country}`),
 
     dashboardStats: () => request("/dashboard/stats"),
   };
