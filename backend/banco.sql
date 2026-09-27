@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS tags (
     name          TEXT NOT NULL,
     color         TEXT NOT NULL DEFAULT '#2F6F63',
     UNIQUE        (user_id, name),
-    FOREIGN KEY   (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY   (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
@@ -29,6 +29,14 @@ CREATE TABLE IF NOT EXISTS tasks (
     created_at        TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at        TEXT NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS task_tags (
+    task_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    PRIMARY KEY (task_id, tag_id),
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_tasks_user_date ON tasks(user_id, task_date);
