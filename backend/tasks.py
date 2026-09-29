@@ -26,7 +26,7 @@ def _date_range_for_view(view, ref_date_str):
             next_month = start.replace(month=start.month + 1)
         end = next_month - timedelta(days=1)
         return start.isoformat(), end.isoformat()
-    return None, None  # "all" ou visão não reconhecida
+    return None, None
 
 def _attach_tags(tasks):
     if not tasks:

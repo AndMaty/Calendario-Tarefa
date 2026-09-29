@@ -32,8 +32,6 @@ def create_tag():
     
     if not name:
         return jsonify({"error": "O nome da tag é obrigatório."}), 400
-        
-    # Validação de segurança contra XSS para a cor da tag
     if not re.match(r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", color):
         return jsonify({"error": "Cor inválida. Utilize o formato hexadecimal (ex: #FF0000)."}), 400
 
@@ -57,7 +55,6 @@ def update_tag(tag_id):
     name = (data.get("name") or tag["name"]).strip()
     color = (data.get("color") or tag["color"]).strip()
 
-    # Validação de segurança contra XSS para a cor na atualização
     if not re.match(r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", color):
         return jsonify({"error": "Cor inválida. Utilize o formato hexadecimal (ex: #FF0000)."}), 400
 

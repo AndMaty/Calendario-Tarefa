@@ -1,6 +1,5 @@
 # Calen-Tarefa 
-Sistema web para gestão de tarefas, organização em calendário e controlo de prazos, integrado com feriados nacionais.
-
+O Calen-Tarefa é uma aplicação web do tipo SPA desenvolvida para o planejamento, organização e acompanhamento de tarefas diárias, permitindo gerir prazos e categorizar atividades com tags personalizadas.
 
 
 ## Tecnologias Utilizadas
@@ -13,5 +12,5 @@ Sistema web para gestão de tarefas, organização em calendário e controlo de 
 ## Como Executar o Projeto Localmente
 Clone o repositório e aceda à pasta do projeto:
    ```bash
-   git clone <url-do-repositorio>
-   cd Calen-Tarefa
+git clone [https://github.com/usuario/Calen-Tarefa.git](https://github.com/usuario/Calen-Tarefa.git)
+cd Calen-Tarefa
